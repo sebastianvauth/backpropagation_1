@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Introduction to Backpropagation and its Necessity</title>
+    <title>Introduction to Computational Graphs</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -154,135 +154,116 @@
 </head>
 <body>
     <section id="section1">
+        <h1>Introduction to Computational Graphs</h1>
         <div class="image-placeholder">
-            <img src="/placeholder.svg?height=300&width=600" alt="Image of a small neural network with a few nodes and connections, then transitioning into a massive, complex neural network with thousands of nodes and an overwhelming number of connections, visually representing the complexity.">
+            <img src="/placeholder.svg?height=300&width=600" alt="An image of a simple neural network with nodes and connections, resembling a web of interconnected points.">
         </div>
-        <h1>Introduction to Backpropagation and its Necessity</h1>
-        <p>Welcome to the fascinating world of backpropagation! Ever wondered how neural networks, the powerful brains driving many AI applications, actually learn? At their core, neural networks are all about adjusting internal settings – we call them <strong>weights</strong> and <strong>biases</strong> – to make accurate predictions. They learn to classify things using examples. From breeds of dogs to makes and models of cars, to Chinese characters — it's hard to put stuff into categories without seeing examples first. But here's the catch: modern networks can have millions, even billions, of these settings. Imagine trying to tune each one of these parameters by hand, it would be like finding a needle in a haystack, except the haystack is the size of a mountain! In this lesson, we will configure an artificial neuron to learn to classify from a set of examples and understand why a more automated and intelligent approach is needed to train these complex networks efficiently.</p>
+        <p>Welcome to the exciting world of neural networks! In this course, we'll unravel the magic behind these powerful models. But before we dive into the complexities of neural networks, we need to understand a fundamental concept: computational graphs. They are the building blocks upon which neural networks are built.</p>
         <div class="continue-button" onclick="showNextSection(2)">Continue</div>
     </section>
 
     <section id="section2">
-        <p>Let's start by understanding the problem. When a neural network makes a prediction, it's essentially performing a series of mathematical operations, guided by its weights and biases. To improve its accuracy, we need to adjust these parameters based on how well the network performs. This adjustment is guided by something called the <strong>gradient</strong> of the <strong>cost function</strong>, which is like a compass pointing towards lower error.</p>
+        <h2>What is a Computational Graph?</h2>
+        <p>Imagine you have a complex mathematical formula. Instead of writing it as a long, intimidating equation, wouldn't it be nice to break it down into smaller, more manageable pieces and visualize how they connect? That's precisely what a computational graph does!</p>
+        <p>It's like a roadmap of calculations, showing us how data flows and transforms within a mathematical function or, in our case, a neural network. Each node in the graph represents a variable or an operation, and the edges represent the flow of data between them.</p>
+        <p>Let's start with a simple example. Consider the function $$ f(x, y) = x * y $$. We can represent this function as a computational graph.</p>
         <div class="image-placeholder">
-            <img src="/placeholder.svg?height=300&width=600" alt="An illustration showing a person attempting to navigate a maze, representing the complexity of manually calculating gradients.">
+            <img src="/placeholder.svg?height=300&width=600" alt="A simple computational graph for the function f(x, y) = x * y.">
         </div>
-        <p>In theory, you could manually calculate the gradient for each parameter by painstakingly applying the chain rule of calculus. But, as the network grows, this quickly becomes impractical. Each added layer, each connection, multiplies the complexity. It would take ages, and the chance of making an error would be incredibly high!</p>
+        <p>In this graph, 'x' and 'y' are input nodes (represented by circles), and the rectangle represents the multiplication operation. The arrows (edges) show how the data flows: 'x' and 'y' flow into the multiplication operation.</p>
         <div class="continue-button" onclick="showNextSection(3)">Continue</div>
     </section>
 
     <section id="section3">
-        <p>Imagine a network with just a few layers and a handful of nodes. Even in this simple scenario, the calculations are tedious. Now, scale that up to a network with hundreds of layers and thousands of nodes. The complexity explodes exponentially! It's clear that we need a better way to train these powerful models.</p>
-        <div class="image-placeholder">
-            <img src="/placeholder.svg?height=300&width=600" alt="A diagram starting with a simple equation of a line, then branching out into a tree-like structure, with each branch representing a more complex equation. Each level of branching adds more variables and operations, visually demonstrating the exponential growth in complexity as more layers and nodes are added to a neural network.">
+        <h3>Breaking Down the Math</h3>
+        <p>Let's walk through the math step-by-step:</p>
+        <p>\[ \text{Given the function: } f(x, y) = x * y \]</p>
+        <p>\[ \text{In our computational graph:} \]</p>
+        <p>\[ \text{1. 'x' and 'y' are input nodes.} \]</p>
+        <p>\[ \text{2. The rectangle represents the multiplication operation.} \]</p>
+        <div class="interactive-placeholder">
+            <img src="/placeholder.svg?height=300&width=600" alt="An interactive version of the f(x, y) = x * y computational graph.">
+        </div>
+        <p>If $$ x = 2 $$ and $$ y = 3 $$, the data flows through the graph:</p>
+        <p>\[ \text{1. The 'x' node gets the value 2.} \]</p>
+        <p>\[ \text{2. The 'y' node gets the value 3.} \]</p>
+        <p>\[ \text{3. The multiplication node receives 2 and 3, multiplies them: } 2 * 3 = 6 \]</p>
+        <p>\[ \text{4. The result of the function is 6.} \]</p>
+        <div class="vocab-section">
+            <h3>Build Your Vocab</h3>
+            <h4 class="vocab-term">Computational Graph</h4>
+            <p>A directed graph representing a mathematical function, where nodes represent variables or operations, and edges represent the flow of data.</p>
+        </div>
+        <p>You see how the computational graph simplifies the representation of even a simple function? It breaks down the calculation into individual steps, making it easier to visualize and understand.</p>
+        <div class="why-it-matters">
+            <h3>Why It Matters</h3>
+            <p>Computational graphs are the foundation of how we build and train neural networks. They provide a clear and organized way to represent complex calculations, making them easier to understand, work with, and optimize.</p>
         </div>
         <div class="continue-button" onclick="showNextSection(4)">Continue</div>
     </section>
 
     <section id="section4">
-        <p>This is where backpropagation enters the scene, like a superhero swooping in to save the day! Backpropagation is an ingenious algorithm that automates the calculation of gradients, making it feasible to train large, complex neural networks.</p>
+        <h3>More Complex Functions</h3>
+        <p>Now, let's consider a slightly more complex function: $$ g(x, y, z) = (x + y) * z $$.</p>
         <div class="image-placeholder">
-            <img src="/placeholder.svg?height=300&width=600" alt="Superhero Backpropagation: An illustration of a superhero character with the letters 'BP' on its chest, flying in to solve a complex problem depicted by tangled mathematical equations.">
+            <img src="/placeholder.svg?height=300&width=600" alt="A computational graph for the function g(x, y, z) = (x + y) * z.">
         </div>
-        <p>Instead of manually calculating each gradient, backpropagation efficiently computes them by propagating error signals backward through the network. It's like a detective retracing their steps to figure out what went wrong (or right!) in the network's prediction.</p>
+        <p>Here, we have two operations: addition and multiplication. The graph shows that 'x' and 'y' are first added together, and then the result is multiplied by 'z'.</p>
+        <p>\[ \text{1. The '+' node receives 'x' and 'y', adds them: } x + y \]</p>
+        <p>\[ \text{2. The '*' node receives the result of (x + y) and 'z', multiplies them: } (x + y) * z \]</p>
+        <p>Let's trace the data flow with $$ x = 2 $$, $$ y = 3 $$, and $$ z = 4 $$:</p>
+        <p>\[ \text{1. The '+' node calculates: } 2 + 3 = 5 \]</p>
+        <p>\[ \text{2. The '*' node calculates: } 5 * 4 = 20 \]</p>
+        <p>\[ \text{3. The result of the function is 20.} \]</p>
+        <div class="stop-and-think">
+            <h3>Stop and Think</h3>
+            <h4>Can you think of other mathematical functions that could be easily represented as computational graphs? What would their nodes and edges look like? Try drawing a computational graph for $$ h(a, b) = a^2 + 2ab + b^2 $$.</h4>
+            <button class="reveal-button" onclick="revealAnswer('stop-and-think-1')">Reveal Answer</button>
+            <p id="stop-and-think-1" style="display: none;">For $$ h(a, b) = a^2 + 2ab + b^2 $$, we would have:
+            <br>- Two input nodes: 'a' and 'b'
+            <br>- Three operation nodes: two for squaring (a^2 and b^2), one for multiplication (2ab)
+            <br>- Two addition nodes: one to add a^2 and 2ab, another to add the result with b^2
+            <br>The edges would connect these nodes to show the flow of calculations.</p>
+        </div>
         <div class="continue-button" onclick="showNextSection(5)">Continue</div>
     </section>
 
     <section id="section5">
-        <p>In the following lessons, we'll break down exactly how backpropagation achieves this, but for now, the key takeaway is that it provides a systematic and efficient way to update the weights and biases of a neural network, allowing it to learn from data and improve its performance over time.</p>
-        <div class="why-it-matters">
-            <h3>Why It Matters</h3>
-            <p>Backpropagation is the cornerstone of training deep neural networks. Without it, training complex models would be practically impossible, limiting the capabilities of AI. It revolutionized the field of machine learning and paved the way for the deep learning revolution we're witnessing today.</p>
+        <h3>Key Components of a Computational Graph</h3>
+        <p>Let's recap the key components we've seen so far:</p>
+        <div class="vocab-section">
+            <h3>Build Your Vocab</h3>
+            <h4 class="vocab-term">Nodes</h4>
+            <p>Represent variables (inputs, outputs) or operations (addition, multiplication, etc.).</p>
+            <h4 class="vocab-term">Edges</h4>
+            <p>Connections between nodes, indicating the direction of data flow.</p>
+            <h4 class="vocab-term">Input Nodes</h4>
+            <p>Nodes that receive external data (e.g., 'x' and 'y' in our examples).</p>
+            <h4 class="vocab-term">Operation Nodes</h4>
+            <p>Nodes that perform mathematical operations (e.g., '+', '*').</p>
+        </div>
+        <div class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+            <h4>Is a computational graph the same as a neural network?</h4>
+            <p>Not exactly. A computational graph is a more general concept used to represent any mathematical function. A neural network can be represented <em>using</em> a computational graph, where nodes represent neurons or operations, and edges represent connections between them.</p>
         </div>
         <div class="continue-button" onclick="showNextSection(6)">Continue</div>
     </section>
 
     <section id="section6">
-        <div class="vocab-section">
-            <h3>Build Your Vocab</h3>
-            <h4 class="vocab-term">Gradient</h4>
-            <p>A vector that points in the direction of the greatest rate of increase of a function, and whose magnitude is the rate of increase in that direction. In the context of neural networks, it indicates how much the cost function changes with respect to changes in weights and biases.</p>
-        </div>
-        <div class="continue-button" onclick="showNextSection(7)">Continue</div>
-    </section>
-
-    <section id="section7">
-        <div class="vocab-section">
-            <h3>Build Your Vocab</h3>
-            <h4 class="vocab-term">Neural Network</h4>
-            <p>A computational model inspired by the structure of the human brain, consisting of interconnected nodes (neurons) organized in layers. Each connection carries a weight, and each neuron has a bias, which are adjusted during training.</p>
-        </div>
-        <div class="continue-button" onclick="showNextSection(8)">Continue</div>
-    </section>
-
-    <section id="section8">
-        <div class="vocab-section">
-            <h3>Build Your Vocab</h3>
-            <h4 class="vocab-term">Weights and Biases</h4>
-            <p>Parameters within a neural network that are adjusted during training to improve the model's performance. Weights determine the strength of connections between neurons, while biases are added to the weighted sum of inputs before passing through an activation function.</p>
-        </div>
-        <div class="continue-button" onclick="showNextSection(9)">Continue</div>
-    </section>
-
-    <section id="section9">
-        <div class="vocab-section">
-            <h3>Build Your Vocab</h3>
-            <h4 class="vocab-term">Cost Function</h4>
-            <p>A function that measures the difference between the predicted output and the actual target value. The goal of training a neural network is to minimize the cost function.</p>
-        </div>
-        <div class="continue-button" onclick="showNextSection(10)">Continue</div>
-    </section>
-
-    <section id="section10">
-        <div class="faq-section">
-            <h3>Frequently Asked Questions</h3>
-            <h4>Is backpropagation only used in deep learning?</h4>
-            <p>While it's most commonly associated with deep learning, the principles of backpropagation can be applied to any differentiable model where gradient-based optimization is used. So, it has broader applications beyond just deep neural networks.</p>
-        </div>
-        <div class="continue-button" onclick="showNextSection(11)">Continue</div>
-    </section>
-
-    <section id="section11">
-        <div class="stop-and-think">
-            <h3>Stop and Think</h3>
-            <h4>Imagine you're trying to teach a robot to bake a cake by adjusting various settings (oven temperature, baking time, ingredient quantities). How could the concept of gradients help in optimizing the robot's baking process? Think about what the 'cost function' might be in this scenario.</h4>
-            <button class="reveal-button" onclick="revealAnswer('stop-and-think-1')">Reveal Answer</button>
-            <p id="stop-and-think-1" style="display: none;">In this scenario, the 'cost function' could be a measure of how far the cake is from being perfectly baked. This might include factors like texture, color, and taste. The gradient would indicate how changing each parameter (temperature, time, quantities) affects the quality of the cake. By following the negative gradient, the robot could make small adjustments to these parameters to improve the cake's quality in each baking attempt, gradually approaching the perfect recipe.</p>
-        </div>
-        <div class="continue-button" onclick="showNextSection(12)">Continue</div>
-    </section>
-
-    <section id="section12">
-        <h2>Test Your Knowledge</h2>
+        <h3>Computational Graphs Represent Functions</h3>
+        <p>It's crucial to understand that a computational graph is simply a visual and structured way to represent a mathematical function. The graph defines the order of operations and how data flows to produce the function's output.</p>
+        <p>In essence, the function $$ f(x, y) = x * y $$ and its corresponding computational graph are two different representations of the same underlying mathematical relationship.</p>
         <div class="test-your-knowledge">
-            <h3>Test Your Knowledge</h3>
-            <h4>Why is backpropagation necessary for training complex neural networks?</h4>
-            <form id="quiz-form">
-                <label>
-                    <input type="radio" name="quiz" value="0">
-                    It makes the network look more sophisticated.
-                </label><br>
-                <label>
-                    <input type="radio" name="quiz" value="1">
-                    It automates the calculation of gradients, which is essential for adjusting the network's parameters efficiently.
-                </label><br>
-                <label>
-                    <input type="radio" name="quiz" value="2">
-                    It helps visualize the neural network's architecture.
-                </label><br>
-                <label>
-                    <input type="radio" name="quiz" value="3">
-                    It randomly adjusts weights and biases until the network performs well.
-                </label><br>
-            </form>
-            <button class="check-button" onclick="checkAnswer()">Check Answer</button>
-            <p id="quiz-result" style="display: none;"></p>
+            <h3>Test Your Understanding</h3>
+            <h4>Draw a computational graph for the function $$ h(a, b) = a + b $$. What are the inputs, and what operation does the graph perform?</h4>
+            <button class="reveal-button" onclick="revealAnswer('test-your-knowledge-1')">Reveal Answer</button>
+            <div id="test-your-knowledge-1" style="display: none;">
+                <p><strong>Answer:</strong> Inputs: a, b; Operation: Addition</p>
+                <p><strong>Explanation:</strong> Correct! The graph would have two input nodes, 'a' and 'b', connected by edges to an addition operation node.</p>
+            </div>
         </div>
-        <div class="continue-button" onclick="showNextSection(13)">Continue</div>
-    </section>
-
-    <section id="section13">
-        <p>In this introductory lesson, we've explored the fundamental challenge of training neural networks: the complexity of manually calculating gradients. We've seen why this approach is impractical for large networks and why an automated solution is needed. Backpropagation emerges as the hero, offering an efficient way to compute gradients and enabling the training of complex models. In the next lesson, we'll start to unpack how backpropagation works by diving into the concept of computational graphs, which provide a powerful way to visualize and understand the flow of calculations in a neural network.</p>
+        <p>Great job! You've now grasped the fundamentals of computational graphs. In the next lesson, we'll see how a fundamental machine learning model, logistic regression, can be represented using these graphs, paving the way for understanding more complex neural networks.</p>
     </section>
 
     <script>
@@ -312,28 +293,6 @@
             
             revealText.style.display = "block";
             revealButton.style.display = "none";
-        }
-
-        function checkAnswer() {
-            const form = document.getElementById('quiz-form');
-            const result = document.getElementById('quiz-result');
-            const selectedAnswer = form.querySelector('input[name="quiz"]:checked');
-
-            if (selectedAnswer) {
-                const answerValue = selectedAnswer.value;
-                if (answerValue === "1") {
-                    result.textContent = "Correct! Backpropagation automates the calculation of gradients, which is essential for adjusting the network's parameters efficiently.";
-                    result.style.color = "green";
-                } else {
-                    result.textContent = "Incorrect. The correct answer is: It automates the calculation of gradients, which is essential for adjusting the network's parameters efficiently.";
-                    result.style.color = "red";
-                }
-                result.style.display = "block";
-            } else {
-                result.textContent = "Please select an answer.";
-                result.style.color = "blue";
-                result.style.display = "block";
-            }
         }
     </script>
 </body>
